@@ -3,16 +3,8 @@ package ru.geekbrains.screen;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 import ru.geekbrains.Point;
 import ru.geekbrains.base.Base2DScreen;
@@ -51,7 +43,6 @@ public class MenuScreen extends Base2DScreen{
         button_exitGameAnimated = textureAtlas.createSprite("button_exitGameAnimated");
         button_exitGameAnimated.setPosition(0, 0);
 
-        //batch = new SpriteBatch();
     }
 
     @Override

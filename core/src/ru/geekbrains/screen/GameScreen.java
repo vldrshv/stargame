@@ -2,11 +2,7 @@ package ru.geekbrains.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +13,6 @@ import ru.geekbrains.SpaceShip;
 import ru.geekbrains.base.Base2DScreen;
 
 public class GameScreen extends Base2DScreen {
-    //private SpriteBatch batch;
 
     Texture wallpaperImg, spaceShipImg, fireImg, asteroidImg;
 

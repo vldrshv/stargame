@@ -5,11 +5,8 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Matrix3;
-import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
-import org.w3c.dom.css.Rect;
 
 import ru.geekbrains.Point;
 import ru.geekbrains.Vector;
