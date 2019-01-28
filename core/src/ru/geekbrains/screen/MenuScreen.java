@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
-import ru.geekbrains.Point;
+import ru.geekbrains.base.Point;
 import ru.geekbrains.base.Base2DScreen;
 
 public class MenuScreen extends Base2DScreen{

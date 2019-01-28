@@ -10,7 +10,7 @@ public class DesktopLauncher {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
         config.title = "StarGame";
         config.width = 800;
-        config.height = 480;
+        config.height = 400;
 		new LwjglApplication(new Star2DGame(), config); // StarGame
 	}
 }

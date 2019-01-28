@@ -7,10 +7,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
-
-import ru.geekbrains.Point;
-import ru.geekbrains.Vector;
-
 public class Base2DScreen implements Screen, InputProcessor {
 
     protected SpriteBatch batch;
@@ -94,24 +90,24 @@ public class Base2DScreen implements Screen, InputProcessor {
     }
 
     public boolean touchDown(Point touch, int pointer) {
-        System.out.println("touchDown touch.x = " + touch.getX() + " touch.y = " + touch.getY());
+//        System.out.println("touchDown touch.x = " + touch.getX() + " touch.y = " + touch.getY());
         return false;
     }
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        System.out.println("touchUp screenX = " + screenX + " screenY = " + screenY);
+//        System.out.println("touchUp screenX = " + screenX + " screenY = " + screenY);
         return false;
     }
 
     public boolean touchUp(Vector touch, int pointer) {
-        System.out.println("touchUp touch.x = " + touch.getX() + " touch.y = " + touch.getY());
+//        System.out.println("touchUp touch.x = " + touch.getX() + " touch.y = " + touch.getY());
         return false;
     }
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
-        System.out.println("touchDragged screenX = " + screenX + " screenY = " + screenY);
+//        System.out.println("touchDragged screenX = " + screenX + " screenY = " + screenY);
 //        touch.set(screenX, screenBounds.getHeight() - screenY).mul(screenToWorlds);
 //        touchDragged(touch, pointer);
         return false;

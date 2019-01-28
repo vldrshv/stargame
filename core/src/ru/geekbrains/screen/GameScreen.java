@@ -7,14 +7,15 @@ import com.badlogic.gdx.graphics.Texture;
 import java.util.ArrayList;
 import java.util.List;
 
-import ru.geekbrains.Asteroid;
-import ru.geekbrains.Point;
-import ru.geekbrains.SpaceShip;
+import ru.geekbrains.spaceObjects.Asteroid;
+import ru.geekbrains.base.Point;
+import ru.geekbrains.spaceObjects.Bullet;
+import ru.geekbrains.spaceObjects.SpaceShip;
 import ru.geekbrains.base.Base2DScreen;
 
 public class GameScreen extends Base2DScreen {
 
-    Texture wallpaperImg, spaceShipImg, fireImg, asteroidImg;
+    Texture wallpaperImg, spaceShipImg, bulletImg, asteroidImg;
 
     Point dest;
 
@@ -35,12 +36,11 @@ public class GameScreen extends Base2DScreen {
 
         wallpaperImg = new Texture("space.jpg");
         spaceShipImg = new Texture(ship.getOutfit());
-        System.out.println(ship.getOutfit());
+        bulletImg = new Texture("fire.png");
         asteroidImg = new Texture("asteroid.png");//asteroid.getOutfit());
 
 
         dest = new Point(ship.getPosition());
-        System.out.println(dest);
     }
     private void initAsteroids() {
         asteroidList = new ArrayList<Asteroid>();
@@ -62,10 +62,10 @@ public class GameScreen extends Base2DScreen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         drawGameObjects();
 
-//        if (!ship.getPosition().equal(dest))
         ship.move(dest);
+        moveSpaceShipBullets();
+        ship.fire();
         moveAsteroids();
-
 
         checkDamage();
     }
@@ -80,29 +80,50 @@ public class GameScreen extends Base2DScreen {
                 ship.setHealth(ship.getHealth() - asteroid.getDamage()); // ship damage (2)
                 asteroid.resetAsteroid(SCREEN_WIDTH, SCREEN_HEIGHT);
             }
-            // check asteroid health
-            if (asteroid.getHealth() <= 0){
-                asteroid.resetAsteroid(SCREEN_WIDTH, SCREEN_HEIGHT);
-                ship.addExperience();
-                if (ship.isUpgrated())
-                    spaceShipImg = new Texture(ship.getOutfit());
+            for (Bullet bullet : ship.getBulletList()){
+                if (asteroid.wasDamaged(bullet)) {
+                    asteroid.setHealth(asteroid.getHealth() - bullet.getDamage());
+                    bullet.resetBullet();
+                    // check asteroid health
+                    if (asteroid.getHealth() <= 0){
+                        asteroid.resetAsteroid(SCREEN_WIDTH, SCREEN_HEIGHT);
+                        ship.addExperience();
+                        //System.out.println("EXP++");
+                        //System.out.println(ship.getDamage());
+//                        if (ship.isUpgraded())
+//                            spaceShipImg = new Texture(ship.getOutfit());
+                    }
+                }
             }
+
         }
         // check ship health
         if (ship.getHealth() <= 0) {
             ship.downgrade();
             spaceShipImg = new Texture(ship.getOutfit());
         }
+
+    }
+
+    private void moveSpaceShipBullets() {
+        for (Bullet b : ship.getBulletList()) {
+            b.move(new Point(SCREEN_WIDTH, SCREEN_HEIGHT, 0));
+//            if (b.isOutOfScreen(SCREEN_WIDTH, SCREEN_HEIGHT)){
+//                System.out.println("BULLET IS OUT");
+//            }
+
+        }
     }
 
     private void moveAsteroids() {
         for (Asteroid asteroid : asteroidList) {
             asteroid.move(new Point(SCREEN_WIDTH, SCREEN_HEIGHT, 0));
-            if(asteroid.isOutOfScreen(SCREEN_WIDTH, SCREEN_HEIGHT)) {
-                ship.addExperience();
-                if (ship.isUpgrated())
-                    spaceShipImg = new Texture(ship.getOutfit());
-            }
+//            if(asteroid.isOutOfScreen(SCREEN_WIDTH, SCREEN_HEIGHT)) {
+//                System.out.println("asteroid is out");
+//                ship.addExperience();
+//                if (ship.isUpgraded())
+//                    spaceShipImg = new Texture(ship.getOutfit());
+//            }
         }
     }
 
@@ -118,6 +139,13 @@ public class GameScreen extends Base2DScreen {
             batch.draw(asteroidImg,
                     (float) asteroid.getPosition().getX(), (float) asteroid.getPosition().getY(),
                     asteroid.getWidth(), asteroid.getHeight());
+        }
+        for (Bullet bullet : ship.getBulletList()) {
+            //System.out.println(bullet.getPosition());
+            if (bullet.getCanBeShooted())
+                batch.draw(bulletImg,
+                        (float) bullet.getPosition().getX(), (float) bullet.getPosition().getY(),
+                        bullet.getWidth(), bullet.getHeight());
         }
         batch.end();
     }
@@ -140,7 +168,7 @@ public class GameScreen extends Base2DScreen {
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         dest = new Point(screenX, SCREEN_HEIGHT - screenY, 0);
-        System.out.println(dest);
+//        System.out.println(dest);
         return super.touchDown(dest, pointer);
     }
 
