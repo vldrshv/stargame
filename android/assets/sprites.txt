@@ -1,0 +1,33 @@
+sprites.png
+size: 1580, 352
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+button_exitGame
+  rotate: false
+  xy: 0, 0
+  size: 790, 172
+  orig: 790, 172
+  offset: 0, 0
+  index: -1
+button_exitGameAnimated
+  rotate: false
+  xy: 790, 0
+  size: 790, 172
+  orig: 790, 172
+  offset: 0, 0
+  index: -1
+button_newGame
+  rotate: false
+  xy: 0, 172
+  size: 790, 180
+  orig: 790, 180
+  offset: 0, 0
+  index: -1
+button_newGameAnimated
+  rotate: false
+  xy: 790, 172
+  size: 790, 180
+  orig: 790, 180
+  offset: 0, 0
+  index: -1
