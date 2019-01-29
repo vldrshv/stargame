@@ -26,6 +26,8 @@ class SpaceShip(x: Double = 0.0, y: Double = 0.0) : SpaceObject() {
         outfit = textureAtlas.createSprite("light_fighter")
     }
 
+    constructor(_point: Point) : this(_point.x, _point.y)
+
     override fun move(x: Double, y: Double) {
         val destVector: Vector = Vector(x - position.x, y - position.y, 0.0)
         movingVector = destVector.normalize().growVector(speed)
