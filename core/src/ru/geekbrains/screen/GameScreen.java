@@ -15,7 +15,7 @@ import ru.geekbrains.base.Base2DScreen;
 
 public class GameScreen extends Base2DScreen {
 
-    Texture wallpaperImg, spaceShipImg, bulletImg, asteroidImg;
+    Texture wallpaperImg;//, bulletImg, asteroidImg;
 
     Point dest;
 
@@ -35,11 +35,6 @@ public class GameScreen extends Base2DScreen {
         initAsteroids();
 
         wallpaperImg = new Texture("space.jpg");
-        spaceShipImg = new Texture(ship.getOutfit());
-        bulletImg = new Texture("fire.png");
-        asteroidImg = new Texture("asteroid.png");//asteroid.getOutfit());
-
-
         dest = new Point(ship.getPosition());
     }
     private void initAsteroids() {
@@ -88,10 +83,6 @@ public class GameScreen extends Base2DScreen {
                     if (asteroid.getHealth() <= 0){
                         asteroid.resetAsteroid(SCREEN_WIDTH, SCREEN_HEIGHT);
                         ship.addExperience();
-                        //System.out.println("EXP++");
-                        //System.out.println(ship.getDamage());
-//                        if (ship.isUpgraded())
-//                            spaceShipImg = new Texture(ship.getOutfit());
                     }
                 }
             }
@@ -100,7 +91,7 @@ public class GameScreen extends Base2DScreen {
         // check ship health
         if (ship.getHealth() <= 0) {
             ship.downgrade();
-            spaceShipImg = new Texture(ship.getOutfit());
+//            spaceShipImg = new Texture(ship.getOutfit());
         }
 
     }
@@ -108,67 +99,55 @@ public class GameScreen extends Base2DScreen {
     private void moveSpaceShipBullets() {
         for (Bullet b : ship.getBulletList()) {
             b.move(new Point(SCREEN_WIDTH, SCREEN_HEIGHT, 0));
-//            if (b.isOutOfScreen(SCREEN_WIDTH, SCREEN_HEIGHT)){
-//                System.out.println("BULLET IS OUT");
-//            }
-
         }
     }
 
     private void moveAsteroids() {
         for (Asteroid asteroid : asteroidList) {
             asteroid.move(new Point(SCREEN_WIDTH, SCREEN_HEIGHT, 0));
-//            if(asteroid.isOutOfScreen(SCREEN_WIDTH, SCREEN_HEIGHT)) {
-//                System.out.println("asteroid is out");
-//                ship.addExperience();
-//                if (ship.isUpgraded())
-//                    spaceShipImg = new Texture(ship.getOutfit());
-//            }
         }
     }
 
     private void drawGameObjects() {
         batch.begin();
-        batch.draw(wallpaperImg,
-                0, 0,
-                SCREEN_WIDTH, SCREEN_HEIGHT);
-        batch.draw(spaceShipImg,
-                (float) ship.getPosition().getX(), (float) ship.getPosition().getY(),
-                ship.getWidth() + 5, ship.getHeight() + 5);
-        for (Asteroid asteroid : asteroidList) {
-            batch.draw(asteroidImg,
-                    (float) asteroid.getPosition().getX(), (float) asteroid.getPosition().getY(),
-                    asteroid.getWidth(), asteroid.getHeight());
-        }
-        for (Bullet bullet : ship.getBulletList()) {
-            //System.out.println(bullet.getPosition());
-            if (bullet.getCanBeShooted())
-                batch.draw(bulletImg,
-                        (float) bullet.getPosition().getX(), (float) bullet.getPosition().getY(),
-                        bullet.getWidth(), bullet.getHeight());
-        }
+        batch.draw(wallpaperImg,0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
         batch.end();
+        ship.render(batch);
+        for (Asteroid asteroid : asteroidList) {
+            asteroid.render(batch);
+        }
+
+        for (Bullet bullet : ship.getBulletList()) {
+            bullet.render(batch);
+        }
     }
 
     @Override
     public void resize(int width, int height) {
         super.resize(width, height);
-        ship.setWidth(SCREEN_WIDTH / 100 * 10);
-        ship.setHeight(SCREEN_HEIGHT / 100 * 15);
+        ship.resize(SCREEN_WIDTH, SCREEN_HEIGHT);
+        for (Bullet b : ship.getBulletList())
+            b.resize(SCREEN_WIDTH, SCREEN_HEIGHT);
+        for (Asteroid a : asteroidList)
+            a.resize(SCREEN_WIDTH, SCREEN_HEIGHT);
     }
 
     @Override
     public void dispose() {
-        spaceShipImg.dispose();
         wallpaperImg.dispose();
         batch.dispose();
+        ship.dispose();
+        for (Bullet b : ship.getBulletList())
+            b.dispose();
+        for (Asteroid a : asteroidList)
+            a.dispose();
+
         super.dispose();
     }
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         dest = new Point(screenX, SCREEN_HEIGHT - screenY, 0);
-//        System.out.println(dest);
         return super.touchDown(dest, pointer);
     }
 

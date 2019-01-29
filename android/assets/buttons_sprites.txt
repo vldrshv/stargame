@@ -1,4 +1,4 @@
-sprites.png
+buttons_sprites.png
 size: 1580, 352
 format: RGBA8888
 filter: Linear,Linear

@@ -1,5 +1,7 @@
 package ru.geekbrains.spaceObjects
 
+import com.badlogic.gdx.graphics.g2d.Batch
+import com.badlogic.gdx.graphics.g2d.TextureAtlas
 import ru.geekbrains.base.Point
 import ru.geekbrains.base.SpaceObject
 import ru.geekbrains.base.Vector
@@ -17,9 +19,11 @@ class SpaceShip(x: Double = 0.0, y: Double = 0.0) : SpaceObject() {
 
     init {
         position = Point(x, y)
-        outfit = "${level}spaceship.png"
         bulletList = arrayListOf()
         addBullets()
+
+        textureAtlas = TextureAtlas("spaceship_sprites.txt")
+        outfit = textureAtlas.createSprite("light_fighter")
     }
 
     override fun move(x: Double, y: Double) {
@@ -33,11 +37,35 @@ class SpaceShip(x: Double = 0.0, y: Double = 0.0) : SpaceObject() {
         position.y += if (deltaY < movingVector.y) deltaY else movingVector.y
 
     }
-
-    private fun addBullets() {
-        while (bulletList.size != 30) {
-            bulletList.add(Bullet(this))
+    override fun upgrade() {
+        if (level < 5) {
+            level++
+            speed++
+            for (bullet in bulletList)
+                bullet.upgrade()
+            println("bullet_Damage = ${bulletList.get(0).damage}")
+            health += level * 200
+            BPS -= 3
         }
+    }
+    override fun render(batch: Batch) {
+        outfit.setPosition(this.position.x.toFloat(), this.position.y.toFloat())
+        outfit.setSize(this.width.toFloat(), this.height.toFloat())
+        batch.begin()
+        outfit.draw(batch)
+        batch.end()
+    }
+
+
+    fun downgrade() {
+//        level = 1
+//        speed = 5.0
+//        damage = 50
+//        health = 200
+//        BPS = 30
+//
+//        outfit = "${level}spaceship.png"
+//        println("outfit = $outfit")
     }
     fun fire() {
         if (TIME_COUNTER >= BPS) {
@@ -55,16 +83,19 @@ class SpaceShip(x: Double = 0.0, y: Double = 0.0) : SpaceObject() {
         TIME_COUNTER ++
 
     }
-
     fun addExperience() {
         experience += EP
         checkUpgrade()
     }
+    fun resize(screenWidth: Double, screenHeight: Double)
+            = super.resize(screenWidth, screenHeight, 10, 20)
 
-//    fun isUpgraded(): Boolean {
-//        return checkUpgrade()
-//    }
 
+    private fun addBullets() {
+        while (bulletList.size != 30) {
+            bulletList.add(Bullet(this))
+        }
+    }
     private fun checkUpgrade(): Boolean {
         if (experience == UPD_POINTS) {
             UPD_POINTS *= 2
@@ -73,32 +104,5 @@ class SpaceShip(x: Double = 0.0, y: Double = 0.0) : SpaceObject() {
         }
 
         return false
-    }
-
-    override fun upgrade() {
-        if (level < 5) {
-            level++
-            speed++
-            for (bullet in bulletList)
-                bullet.upgrade()
-            println("bullet_Damage = ${bulletList.get(0).damage}")
-            health += level * 200
-            BPS -= 3
-        }
-
-        outfit = "${level}spaceship.png"
-        println("outfit = $outfit")
-
-    }
-
-    fun downgrade() {
-//        level = 1
-//        speed = 5.0
-//        damage = 50
-//        health = 200
-//        BPS = 30
-//
-//        outfit = "${level}spaceship.png"
-//        println("outfit = $outfit")
     }
 }

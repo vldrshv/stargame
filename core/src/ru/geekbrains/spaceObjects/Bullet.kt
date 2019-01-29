@@ -1,5 +1,6 @@
 package ru.geekbrains.spaceObjects
 
+import com.badlogic.gdx.graphics.g2d.Batch
 import ru.geekbrains.base.Point
 import ru.geekbrains.base.SpaceObject
 
@@ -9,6 +10,7 @@ class Bullet(obj: SpaceObject) : SpaceObject() {
     var owner: SpaceObject = obj
     var canBeShooted: Boolean = false
 
+
     init {
         if (obj is SpaceShip)
             belongsTo = BelongsTo.SPACE_SHIP
@@ -17,10 +19,10 @@ class Bullet(obj: SpaceObject) : SpaceObject() {
         damage = 10
         health = 10
         speed = obj.speed + 10
-        height = 20
-        width = 50
+        height = obj.height
+        width = obj.width
         level = 1
-        outfit = "fire.png"
+        outfit = textureAtlas.createSprite("fire")
     }
 
     private fun getSign(): Int {
@@ -41,9 +43,21 @@ class Bullet(obj: SpaceObject) : SpaceObject() {
 
     override fun upgrade() {
         damage += 10
-        //speed += 10
         level ++
     }
+
+    override fun render(batch: Batch) {
+        if (this.canBeShooted) {
+            batch.begin()
+            outfit.setSize(this.width.toFloat(), this.height.toFloat())
+            outfit.setPosition(this.position.x.toFloat(), this.position.y.toFloat())
+            outfit.draw(batch)
+            batch.end()
+        }
+    }
+
+    fun resize(screenWidth: Double, screenHeight: Double)
+            = super.resize(screenWidth, screenHeight, 5, 5)
 
     enum class BelongsTo { ENEMY, SPACE_SHIP }
 

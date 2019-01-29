@@ -13,8 +13,8 @@ public class MenuScreen extends Base2DScreen{
 
     TextureAtlas textureAtlas;
 
-    Sprite button_newGame, button_exitGame;
-    Sprite button_newGameAnimated, button_exitGameAnimated;
+    Sprite btnNewGame, btnExitGame;
+    Sprite btnNewGameAnimated, btnExitGameAnimated;
 
     Point position;
     Game game;
@@ -28,20 +28,20 @@ public class MenuScreen extends Base2DScreen{
     @Override
     public void show() {
         super.show();
-        textureAtlas = new TextureAtlas("sprites.txt");
+        textureAtlas = new TextureAtlas("buttons_sprites.txt");
 
         position = new Point();
-        button_newGame = textureAtlas.createSprite("button_newGame");
-        button_newGame.setPosition(0, SCREEN_HEIGHT / 2);
+        btnNewGame = textureAtlas.createSprite("button_newGame");
+        btnNewGame.setPosition(0, SCREEN_HEIGHT / 2);
 
-        button_newGameAnimated = textureAtlas.createSprite("button_newGameAnimated");
-        button_newGameAnimated.setPosition(0, SCREEN_HEIGHT / 2);
+        btnNewGameAnimated = textureAtlas.createSprite("button_newGameAnimated");
+        btnNewGameAnimated.setPosition(0, SCREEN_HEIGHT / 2);
 
-        button_exitGame = textureAtlas.createSprite("button_exitGame");
-        button_exitGame.setPosition(0, 0);
+        btnExitGame = textureAtlas.createSprite("button_exitGame");
+        btnExitGame.setPosition(0, 0);
 
-        button_exitGameAnimated = textureAtlas.createSprite("button_exitGameAnimated");
-        button_exitGameAnimated.setPosition(0, 0);
+        btnExitGameAnimated = textureAtlas.createSprite("button_exitGameAnimated");
+        btnExitGameAnimated.setPosition(0, 0);
 
     }
 
@@ -57,19 +57,19 @@ public class MenuScreen extends Base2DScreen{
         batch.begin();
 
         if(position.getY() > 0 && position.getY() < SCREEN_HEIGHT / 2) {
-            button_exitGameAnimated.draw(batch);
+            btnExitGameAnimated.draw(batch);
             if (_wait())
                 Gdx.app.exit();
         }
          else
-            button_exitGame.draw(batch);
+            btnExitGame.draw(batch);
         if(position.getY() > SCREEN_HEIGHT / 2 && position.getY() < SCREEN_HEIGHT ) {
-            button_newGameAnimated.draw(batch);
+            btnNewGameAnimated.draw(batch);
             if(_wait())
                 game.setScreen(new GameScreen());
         }
         else
-            button_newGame.draw(batch);
+            btnNewGame.draw(batch);
         batch.end();
     }
 

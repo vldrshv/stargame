@@ -1,5 +1,9 @@
 package ru.geekbrains.base
 
+import com.badlogic.gdx.graphics.g2d.Batch
+import com.badlogic.gdx.graphics.g2d.Sprite
+import com.badlogic.gdx.graphics.g2d.TextureAtlas
+
 abstract class SpaceObject (
         var position: Point = Point(),
         var damage: Int = 50,
@@ -8,9 +12,11 @@ abstract class SpaceObject (
         var height: Int = 10,
         var width: Int = 15,
         var movingVector: Vector = Vector(),
-        var level: Int = 1,
-        var outfit: String = ""
+        var level: Int = 1
 ) {
+
+    protected var textureAtlas: TextureAtlas = TextureAtlas("spaceship_sprites.txt")
+    open lateinit var outfit: Sprite
 
     fun move(_dest: Point) {
         if(!this.position.equal(_dest))
@@ -47,7 +53,6 @@ abstract class SpaceObject (
         }
         return false
     }
-
     abstract fun upgrade()
     override fun toString(): String {
         return "SpaceObject(\n" +
@@ -59,6 +64,14 @@ abstract class SpaceObject (
                 "\twidth=$width,\n" +
                 "\tlevel=$level\n" +
                 ");"
+    }
+    abstract fun render(batch: Batch)
+    fun dispose(){
+        textureAtlas.dispose()
+    }
+    protected open fun resize(screenWidth: Double, screenHeight: Double, width:Int, height: Int){
+        this.height = (screenHeight / 100 * height).toInt()
+        this.width = (screenWidth / 100 * width).toInt()
     }
 
 }

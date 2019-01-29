@@ -1,5 +1,6 @@
 package ru.geekbrains.spaceObjects
 
+import com.badlogic.gdx.graphics.g2d.Batch
 import ru.geekbrains.base.Point
 import ru.geekbrains.base.SpaceObject
 
@@ -7,7 +8,7 @@ class Asteroid (x: Double = 0.0, y: Double = 0.0): SpaceObject(){
 
     init {
         position = Point(x, y)
-        outfit = "asteroid.png"
+        outfit = textureAtlas.createSprite("asteroid")
         width = 10
         height = 10
         damage = 200
@@ -16,7 +17,6 @@ class Asteroid (x: Double = 0.0, y: Double = 0.0): SpaceObject(){
 
     override fun move(screenWidth: Double, screenHeight: Double) {
         if (!isOutOfScreen(screenWidth, screenHeight)) {
-            //if (!position.equal(Point(screenWidth, screenHeight + height)))
                 position.y -= speed
         }
         else
@@ -31,9 +31,19 @@ class Asteroid (x: Double = 0.0, y: Double = 0.0): SpaceObject(){
                 screenHeight + Math.random() * 100 % screenHeight)
     }
 
+    override fun render(batch: Batch) {
+        batch.begin()
+        outfit.setPosition(position.x.toFloat(), position.y.toFloat())
+        outfit.setSize(width.toFloat(), height.toFloat())
+        outfit.draw(batch)
+        batch.end()
+    }
     override fun upgrade() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
+
+    fun resize(screenWidth: Double, screenHeight: Double)
+            = super.resize(screenWidth, screenHeight, 5, 10)
 
 
 
