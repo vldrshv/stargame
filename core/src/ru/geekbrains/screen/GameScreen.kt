@@ -1,6 +1,7 @@
 package ru.geekbrains.screen
 
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.audio.Music
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.Texture
 
@@ -22,22 +23,23 @@ class GameScreen : Base2DScreen() {
 
     private var ASTEROID_QUANTITY = 7
 
+    private var music: Music? = null
+
+
     init {
         super.show()
         wallpaperImg = Texture("space.jpg")
-        dest = Point()
         ship = SpaceShip((SCREEN_WIDTH / 2).toDouble(), 0.0)
         asteroidList = ArrayList()
         initAsteroids()
         dest = Point(ship.position)
         ship.width = SCREEN_WIDTH / 100 * 10
         ship.height = SCREEN_HEIGHT / 100 * 15
-    }
 
-//    override fun show() {
-//        super.show()
-//
-//    }
+        music = Gdx.audio.newMusic(Gdx.files.internal("1.mp3"))
+        music!!.isLooping = true
+        music!!.play()
+    }
 
     private fun initAsteroids() {
         for (i in 0 until ASTEROID_QUANTITY) {
@@ -56,8 +58,7 @@ class GameScreen : Base2DScreen() {
         Gdx.gl.glClearColor(0.5f, 0.2f, 0.3f, 1f)
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
         drawGameObjects()
-
-        ship.move(dest)
+        ship.move(SCREEN_WIDTH.toDouble())
         moveSpaceShipBullets()
         ship.fire()
         moveAsteroids()
@@ -142,7 +143,25 @@ class GameScreen : Base2DScreen() {
 
     override fun touchDown(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
         dest = Point(screenX, SCREEN_HEIGHT - screenY, 0)
+        ship.updateMovingDirection(screenX, SCREEN_WIDTH, false)
         return super.touchDown(dest, pointer)
     }
+
+    override fun touchUp(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
+        ship.updateMovingDirection(screenX, SCREEN_WIDTH, true)
+        return super.touchUp(screenX, screenY, pointer, button)
+    }
+
+    override fun pause() {
+        super.pause()
+        music!!.pause()
+    }
+
+    override fun resume() {
+        super.resume()
+        music!!.play()
+    }
+
+
 
 }

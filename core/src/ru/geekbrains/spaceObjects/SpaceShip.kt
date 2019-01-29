@@ -16,6 +16,9 @@ class SpaceShip(x: Double = 0.0, y: Double = 0.0) : SpaceObject() {
     private var TIME_COUNTER: Int = 1 //
 
     private var bulletNum: Int = 0
+    private var direction: Direction = Direction.STOP
+
+    enum class Direction { LEFT, RIGHT, STOP }
 
     init {
         position = Point(x, y)
@@ -28,6 +31,19 @@ class SpaceShip(x: Double = 0.0, y: Double = 0.0) : SpaceObject() {
 
     constructor(_point: Point) : this(_point.x, _point.y)
 
+    @Deprecated(message = "Deprecated for mobile phone")
+    fun move(_point: Point, screenWidth: Double, screenHeight: Double) {
+        if (!isOutOfScreen(screenWidth, screenHeight))
+            move(_point)
+        else{
+            if (position.x + width > screenWidth)
+                position.x = 0.0//screenWidth - width
+            if (position.x < 0.0)
+                position.x = screenWidth - width
+        }
+    }
+
+    @Deprecated(message = "Deprecated for mobile phone")
     override fun move(x: Double, y: Double) {
         val destVector: Vector = Vector(x - position.x, y - position.y, 0.0)
         movingVector = destVector.normalize().growVector(speed)
@@ -37,8 +53,57 @@ class SpaceShip(x: Double = 0.0, y: Double = 0.0) : SpaceObject() {
 
         val deltaY: Double = Vector(0.0, y - position.y, 0.0).length()
         position.y += if (deltaY < movingVector.y) deltaY else movingVector.y
-
     }
+
+    /**
+     * @param screenWidth - Value of screen width
+     */
+    fun move(screenWidth: Double){
+        when (direction) {
+            Direction.LEFT -> position.x -= speed
+            Direction.RIGHT -> position.x += speed
+        }
+        if (position.x + width >= screenWidth)
+            position.x = screenWidth - width
+        if (position.x < 0.0)//+ width < 0.0)
+            position.x = 0.0//screenWidth - width
+    }
+
+    /**
+     *
+     * @param x - x_point of touch on screen
+     * @param screenWidth - the width of screen
+     * @param touchUp - set true if you call when finger was removed from the screen
+     */
+    fun updateMovingDirection(x: Int, screenWidth: Int, touchUp: Boolean = false) =
+            updateDirection(x.toDouble(), screenWidth.toDouble(), touchUp)
+
+    private fun updateDirection(x: Double, screenWidth: Double, touchUp: Boolean) {
+        direction = if (!touchUp) {
+            if (x > screenWidth / 2)
+                Direction.RIGHT
+            else
+                Direction.LEFT
+        } else {
+            Direction.STOP
+        }
+    }
+
+    override fun isOutOfScreen(screenWidth: Double, screenHeight: Double): Boolean {
+        return !( (position.x + width in 0.0 .. screenWidth) &&
+                (position.y + height in 0.0 .. screenHeight) )
+    }
+
+    override fun render(batch: Batch) {
+        outfit.setPosition(this.position.x.toFloat(), this.position.y.toFloat())
+        outfit.setSize(this.width.toFloat(), this.height.toFloat())
+        batch.begin()
+        outfit.draw(batch)
+        batch.end()
+    }
+    fun resize(screenWidth: Double, screenHeight: Double)
+            = super.resize(screenWidth, screenHeight, 10, 20)
+
     override fun upgrade() {
         if (level < 5) {
             level++
@@ -49,16 +114,9 @@ class SpaceShip(x: Double = 0.0, y: Double = 0.0) : SpaceObject() {
             health += level * 200
             BPS -= 3
         }
+        if (level >= 2)
+            outfit = textureAtlas.createSprite("millenium_falcon")
     }
-    override fun render(batch: Batch) {
-        outfit.setPosition(this.position.x.toFloat(), this.position.y.toFloat())
-        outfit.setSize(this.width.toFloat(), this.height.toFloat())
-        batch.begin()
-        outfit.draw(batch)
-        batch.end()
-    }
-
-
     fun downgrade() {
 //        level = 1
 //        speed = 5.0
@@ -89,9 +147,6 @@ class SpaceShip(x: Double = 0.0, y: Double = 0.0) : SpaceObject() {
         experience += EP
         checkUpgrade()
     }
-    fun resize(screenWidth: Double, screenHeight: Double)
-            = super.resize(screenWidth, screenHeight, 10, 20)
-
 
     private fun addBullets() {
         while (bulletList.size != 30) {
