@@ -36,7 +36,7 @@ class GameScreen : Base2DScreen() {
         ship.width = SCREEN_WIDTH / 100 * 10
         ship.height = SCREEN_HEIGHT / 100 * 15
 
-        music = Gdx.audio.newMusic(Gdx.files.internal("1.mp3"))
+        music = Gdx.audio.newMusic(Gdx.files.internal("shooting_stars.mp3"))
         music!!.isLooping = true
         music!!.play()
     }
