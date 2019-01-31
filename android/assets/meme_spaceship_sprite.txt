@@ -1,0 +1,19 @@
+meme_spaceship_sprite.png
+size: 320, 516
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+nyan_cat
+  rotate: false
+  xy: 0, 0
+  size: 320, 200
+  orig: 320, 200
+  offset: 0, 0
+  index: -1
+rainbow
+  rotate: false
+  xy: 0, 200
+  size: 258, 316
+  orig: 258, 316
+  offset: 0, 0
+  index: -1

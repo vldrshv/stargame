@@ -1,6 +1,5 @@
 package ru.geekbrains.desktop;
 
-import ru.geekbrains.spaceObjects.Asteroid;
 import ru.geekbrains.spaceObjects.SpaceShip;
 import ru.geekbrains.base.Vector;
 

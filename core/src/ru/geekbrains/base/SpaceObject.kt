@@ -15,7 +15,8 @@ abstract class SpaceObject (
         var level: Int = 1
 ) {
 
-    protected var textureAtlas: TextureAtlas = TextureAtlas("spaceship_sprites.txt")
+//    protected var textureAtlas: TextureAtlas = TextureAtlas("spaceship_sprites.txt")
+    protected var textureAtlas: TextureAtlas = TextureAtlas("meme_spaceship_sprite.txt")
     open lateinit var outfit: Sprite
 
     fun move(_dest: Point) {

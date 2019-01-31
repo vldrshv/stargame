@@ -18,11 +18,12 @@ class Bullet(obj: SpaceObject) : SpaceObject() {
         position = Point(obj.position.x, obj.position.y)
         damage = 10
         health = 10
-        speed = obj.speed + 10
+        speed = obj.speed
         height = obj.height
         width = obj.width
         level = 1
-        outfit = textureAtlas.createSprite("fire")
+//        outfit = textureAtlas.createSprite("fire")
+        outfit = textureAtlas.createSprite("rainbow")
     }
 
     private fun getSign(): Int {
@@ -57,7 +58,7 @@ class Bullet(obj: SpaceObject) : SpaceObject() {
     }
 
     fun resize(screenWidth: Double, screenHeight: Double)
-            = super.resize(screenWidth, screenHeight, 5, 5)
+            = super.resize(screenWidth, screenHeight, 5, 15)//5)
 
     enum class BelongsTo { ENEMY, SPACE_SHIP }
 

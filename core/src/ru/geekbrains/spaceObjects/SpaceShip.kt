@@ -25,9 +25,11 @@ class SpaceShip(x: Double = 0.0, y: Double = 0.0) : SpaceObject() {
         bulletList = arrayListOf()
         addBullets()
 
-        textureAtlas = TextureAtlas("spaceship_sprites.txt")
-        outfit = textureAtlas.createSprite("light_fighter")
+        //textureAtlas = TextureAtlas("spaceship_sprites.txt")
+//        outfit = textureAtlas.createSprite("light_fighter")
+        outfit = textureAtlas.createSprite("nyan_cat")
     }
+
 
     constructor(_point: Point) : this(_point.x, _point.y)
 
@@ -102,7 +104,7 @@ class SpaceShip(x: Double = 0.0, y: Double = 0.0) : SpaceObject() {
         batch.end()
     }
     fun resize(screenWidth: Double, screenHeight: Double)
-            = super.resize(screenWidth, screenHeight, 10, 20)
+            = super.resize(screenWidth, screenHeight, 10, 10)//20)
 
     override fun upgrade() {
         if (level < 5) {
@@ -114,8 +116,8 @@ class SpaceShip(x: Double = 0.0, y: Double = 0.0) : SpaceObject() {
             health += level * 200
             BPS -= 3
         }
-        if (level >= 2)
-            outfit = textureAtlas.createSprite("millenium_falcon")
+//        if (level >= 2)
+//            outfit = textureAtlas.createSprite("millenium_falcon")
     }
     fun downgrade() {
 //        level = 1
