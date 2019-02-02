@@ -14,6 +14,7 @@ import ru.geekbrains.spaceObjects.SpaceShip
 import ru.geekbrains.base.Base2DScreen
 import ru.geekbrains.base.MemeFactory
 import ru.geekbrains.base.MemeManager
+import ru.geekbrains.spaceObjects.Award
 
 class GameScreen : Base2DScreen() {
 
@@ -21,14 +22,13 @@ class GameScreen : Base2DScreen() {
 
     private var dest: Point
     private var ship: SpaceShip
+    private var award: Award
 
     private var music: Music? = null
     
     private var memeManager: MemeManager
-//
+    
     private var withoutDamage: Int = 0
-    private var withoutDamageRender: Boolean = false
-    private var awardMemeTime: Int = 120
 
     var textureAtlas: TextureAtlas = TextureAtlas("meme_spaceship_sprite.txt")
 
@@ -48,6 +48,8 @@ class GameScreen : Base2DScreen() {
         memeManager = MemeManager()//SCREEN_WIDTH.toDouble(), SCREEN_WIDTH.toDouble())
         memeManager.memeFactory = MemeFactory(SCREEN_WIDTH.toDouble(), SCREEN_WIDTH.toDouble())
         memeManager.generateMemeList()
+        
+        award = memeManager.memeFactory.getAward()
     }
 
     override fun render(delta: Float) {
@@ -60,7 +62,21 @@ class GameScreen : Base2DScreen() {
         ship.move()
         
         memeManager.checkDamage(ship)
-        ship.checkDamage(memeManager.memeList)
+
+//      ========================================================================================
+//      TODO: Убрать в memeManager
+        val updateWithoutDamageCounter = ship.checkDamage(memeManager.memeList)
+        if (updateWithoutDamageCounter)
+            withoutDamage++
+        award.checkAward(withoutDamage)
+        
+        award.render(batch)
+        if (award.wasShown) {
+            award = memeManager.memeFactory.getAward()
+            withoutDamage = 0
+        }
+        println("withoutDamage = $withoutDamage")
+//      ========================================================================================
     }
     
     private fun drawGameObjects() {

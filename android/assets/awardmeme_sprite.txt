@@ -1,12 +1,47 @@
 awardmeme_sprite.png
-size: 364, 375
+size: 1863, 1119
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
-award_meme
+award_meme-1
   rotate: false
   xy: 0, 0
   size: 364, 375
   orig: 364, 375
+  offset: 0, 0
+  index: -1
+award_meme-2
+  rotate: false
+  xy: 364, 0
+  size: 484, 500
+  orig: 484, 500
+  offset: 0, 0
+  index: -1
+award_meme-3
+  rotate: false
+  xy: 848, 0
+  size: 799, 507
+  orig: 799, 507
+  offset: 0, 0
+  index: -1
+award_meme-4
+  rotate: false
+  xy: 0, 507
+  size: 839, 612
+  orig: 839, 612
+  offset: 0, 0
+  index: -1
+award_meme-5
+  rotate: false
+  xy: 839, 507
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: -1
+award_meme-6
+  rotate: false
+  xy: 1351, 507
+  size: 512, 512
+  orig: 512, 512
   offset: 0, 0
   index: -1

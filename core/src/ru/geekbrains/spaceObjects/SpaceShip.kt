@@ -75,15 +75,20 @@ class SpaceShip(x: Double = 0.0, y: Double = 0.0) {
         for (b: Bullet in bulletList)
             b.render(batch)
     }
-    fun checkDamage(memeList: ArrayList<Meme>) {
+    fun checkDamage(memeList: ArrayList<Meme>) : Boolean {
+        var wasDamaged: Boolean = false
         for(meme: Meme in memeList){
             if (this.wasDamaged(meme)){
                 meme.resetMeme(screenWidth, screenHeight)
                 this.health -= meme.damage
             }
-            if (health <= 0)
+            if (health <= 0) {
                 downgrade()
+                wasDamaged = true
+            }
         }
+        
+        return !wasDamaged
     }
     
     private fun wasDamaged(meme: Meme) : Boolean {
