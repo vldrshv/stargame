@@ -13,5 +13,8 @@ object DesktopLauncher {
         config.width = 800
         config.height = 400
         LwjglApplication(Star2DGame(), config)
+
+
+
     }
 }

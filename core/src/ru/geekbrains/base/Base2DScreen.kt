@@ -76,22 +76,22 @@ open class Base2DScreen : Screen, InputProcessor {
     }
 
     override fun touchDown(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
-        //System.out.println("touchDown screenX = " + screenX + " screenY = " + screenY);
+        System.out.println("touchDown screenX = $screenX screenY = $screenY")
         return false
     }
 
     fun touchDown(touch: Point, pointer: Int): Boolean {
-        //        System.out.println("touchDown touch.x = " + touch.getX() + " touch.y = " + touch.getY());
+        System.out.println("touchDown touch.x = " + touch.x + " touch.y = " + touch.y)
         return false
     }
 
     override fun touchUp(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
-        //        System.out.println("touchUp screenX = " + screenX + " screenY = " + screenY);
+                System.out.println("touchUp screenX = " + screenX + " screenY = " + screenY);
         return false
     }
 
     fun touchUp(touch: Vector, pointer: Int): Boolean {
-        //        System.out.println("touchUp touch.x = " + touch.getX() + " touch.y = " + touch.getY());
+        System.out.println("touchUp touch.x = " + touch.x + " touch.y = " + touch.y)
         return false
     }
 

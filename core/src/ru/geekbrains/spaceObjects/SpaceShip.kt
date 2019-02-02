@@ -1,86 +1,61 @@
 package ru.geekbrains.spaceObjects
 
 import com.badlogic.gdx.graphics.g2d.Batch
+import com.badlogic.gdx.graphics.g2d.Sprite
 import com.badlogic.gdx.graphics.g2d.TextureAtlas
 import ru.geekbrains.base.Point
-import ru.geekbrains.base.SpaceObject
-import ru.geekbrains.base.Vector
 
-class SpaceShip(x: Double = 0.0, y: Double = 0.0) : SpaceObject() {
+class SpaceShip(x: Double = 0.0, y: Double = 0.0) {
     var bulletList: ArrayList<Bullet>
+    var textureAtlas: TextureAtlas = TextureAtlas("meme_spaceship_sprite.txt")
+    var position = Point(x, y)
+    var health = 200
+    var speed: Double = 5.0
+    var width: Int = 20
+    var height: Int = 10
+    var level: Int = 1
+    var outfit: Sprite = textureAtlas.createSprite("nyan_cat")
+    var screenWidth: Double = 800.0
+    var screenHeight: Double = 400.0
 
     private var experience: Int = 0
     private var EP: Int = 10
     private var UPD_POINTS: Int = 100
     private var BPS: Int = 30 // Bullet Per {value} Second
-    private var TIME_COUNTER: Int = 1 //
-
+    private var TIME_COUNTER: Int = 1
+    
     private var bulletNum: Int = 0
     private var direction: Direction = Direction.STOP
 
     enum class Direction { LEFT, RIGHT, STOP }
 
     init {
-        position = Point(x, y)
-        bulletList = arrayListOf()
+        bulletList = ArrayList()
         addBullets()
-
-        //textureAtlas = TextureAtlas("spaceship_sprites.txt")
-//        outfit = textureAtlas.createSprite("light_fighter")
-        outfit = textureAtlas.createSprite("nyan_cat")
     }
-
 
     constructor(_point: Point) : this(_point.x, _point.y)
-
-    @Deprecated(message = "Deprecated for mobile phone")
-    fun move(_point: Point, screenWidth: Double, screenHeight: Double) {
-        if (!isOutOfScreen(screenWidth, screenHeight))
-            move(_point)
-        else{
-            if (position.x + width > screenWidth)
-                position.x = 0.0//screenWidth - width
-            if (position.x < 0.0)
-                position.x = screenWidth - width
-        }
-    }
-
-    @Deprecated(message = "Deprecated for mobile phone")
-    override fun move(x: Double, y: Double) {
-        val destVector: Vector = Vector(x - position.x, y - position.y, 0.0)
-        movingVector = destVector.normalize().growVector(speed)
-
-        val deltaX: Double = Vector(x - position.x, 0.0).length()
-        position.x += if (deltaX < movingVector.x) deltaX else movingVector.x
-
-        val deltaY: Double = Vector(0.0, y - position.y, 0.0).length()
-        position.y += if (deltaY < movingVector.y) deltaY else movingVector.y
-    }
 
     /**
      * @param screenWidth - Value of screen width
      */
-    fun move(screenWidth: Double){
+    fun move(){
         when (direction) {
             Direction.LEFT -> position.x -= speed
             Direction.RIGHT -> position.x += speed
         }
         if (position.x + width >= screenWidth)
             position.x = screenWidth - width
-        if (position.x < 0.0)//+ width < 0.0)
-            position.x = 0.0//screenWidth - width
+        if (position.x < 0.0)
+            position.x = 0.0
     }
-
     /**
      *
      * @param x - x_point of touch on screen
      * @param screenWidth - the width of screen
      * @param touchUp - set true if you call when finger was removed from the screen
      */
-    fun updateMovingDirection(x: Int, screenWidth: Int, touchUp: Boolean = false) =
-            updateDirection(x.toDouble(), screenWidth.toDouble(), touchUp)
-
-    private fun updateDirection(x: Double, screenWidth: Double, touchUp: Boolean) {
+    fun updateDirection(x: Double, screenWidth: Double, touchUp: Boolean = false) {
         direction = if (!touchUp) {
             if (x > screenWidth / 2)
                 Direction.RIGHT
@@ -90,23 +65,77 @@ class SpaceShip(x: Double = 0.0, y: Double = 0.0) : SpaceObject() {
             Direction.STOP
         }
     }
-
-    override fun isOutOfScreen(screenWidth: Double, screenHeight: Double): Boolean {
-        return !( (position.x + width in 0.0 .. screenWidth) &&
-                (position.y + height in 0.0 .. screenHeight) )
-    }
-
-    override fun render(batch: Batch) {
+    
+    fun render(batch: Batch) {
         outfit.setPosition(this.position.x.toFloat(), this.position.y.toFloat())
         outfit.setSize(this.width.toFloat(), this.height.toFloat())
         batch.begin()
         outfit.draw(batch)
         batch.end()
+        for (b: Bullet in bulletList)
+            b.render(batch)
     }
-    fun resize(screenWidth: Double, screenHeight: Double)
-            = super.resize(screenWidth, screenHeight, 10, 10)//20)
+    fun checkDamage(memeList: ArrayList<Meme>) {
+        for(meme: Meme in memeList){
+            if (this.wasDamaged(meme)){
+                meme.resetMeme(screenWidth, screenHeight)
+                this.health -= meme.damage
+            }
+            if (health <= 0)
+                downgrade()
+        }
+    }
+    
+    private fun wasDamaged(meme: Meme) : Boolean {
+        if (meme.position.y in (position.y..this.position.y + this.height) ||
+                this.position.y in (meme.position.y .. meme.position.y + meme.height)) {
+            if (meme.position.x in (this.position.x..this.position.x + this.width))
+                return true
+            if (this.position.x in (meme.position.x .. meme.position.x + meme.width))
+                return true
+        }
+        return false
+    }
 
-    override fun upgrade() {
+    private fun addBullets() {
+        while (bulletList.size != 30) {
+            bulletList.add(Bullet(this))
+        }
+    }
+
+//    @Deprecated(message = "Deprecated for mobile phone")
+//    fun move(_point: Point, screenWidth: Double, screenHeight: Double) {
+//        if (!isOutOfScreen(screenWidth, screenHeight))
+//            move(_point)
+//        else{
+//            if (position.x + width > screenWidth)
+//                position.x = 0.0//screenWidth - width
+//            if (position.x < 0.0)
+//                position.x = screenWidth - width
+//        }
+//    }
+//
+//    @Deprecated(message = "Deprecated for mobile phone")
+//    override fun move(x: Double, y: Double) {
+//        val destVector: Vector = Vector(x - position.x, y - position.y, 0.0)
+//        movingVector = destVector.normalize().growVector(speed)
+//
+//        val deltaX: Double = Vector(x - position.x, 0.0).length()
+//        position.x += if (deltaX < movingVector.x) deltaX else movingVector.x
+//
+//        val deltaY: Double = Vector(0.0, y - position.y, 0.0).length()
+//        position.y += if (deltaY < movingVector.y) deltaY else movingVector.y
+//    }
+    fun resize(screenWidth: Double, screenHeight: Double) {
+        this.screenWidth = screenWidth
+        this.screenHeight = screenHeight
+        width = (screenWidth / 100 * 10).toInt()
+        height = (screenHeight / 100 * 10).toInt()
+        for (b: Bullet in bulletList)
+            b.resize(screenWidth, screenHeight)
+    }
+
+    fun upgrade() {
         if (level < 5) {
             level++
             speed++
@@ -116,20 +145,20 @@ class SpaceShip(x: Double = 0.0, y: Double = 0.0) : SpaceObject() {
             health += level * 200
             BPS -= 3
         }
-//        if (level >= 2)
-//            outfit = textureAtlas.createSprite("millenium_falcon")
     }
     fun downgrade() {
-//        level = 1
-//        speed = 5.0
-//        damage = 50
-//        health = 200
-//        BPS = 30
-//
-//        outfit = "${level}spaceship.png"
-//        println("outfit = $outfit")
+        level = 1
+        speed = 5.0
+        health = 200
+        BPS = 30
+
     }
     fun fire() {
+        checkBulletsReady()
+        for (b: Bullet in bulletList)
+            b.move(screenHeight)
+    }
+    private fun checkBulletsReady() {
         if (TIME_COUNTER >= BPS) {
             TIME_COUNTER = 0
 
@@ -143,25 +172,18 @@ class SpaceShip(x: Double = 0.0, y: Double = 0.0) : SpaceObject() {
             return
         }
         TIME_COUNTER ++
-
     }
     fun addExperience() {
         experience += EP
         checkUpgrade()
     }
 
-    private fun addBullets() {
-        while (bulletList.size != 30) {
-            bulletList.add(Bullet(this))
-        }
-    }
     private fun checkUpgrade(): Boolean {
         if (experience == UPD_POINTS) {
             UPD_POINTS *= 2
             upgrade()
             return true
         }
-
         return false
     }
 }

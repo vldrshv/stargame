@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite
 import com.badlogic.gdx.graphics.g2d.TextureAtlas
 import ru.geekbrains.spaceObjects.Award
 import ru.geekbrains.spaceObjects.Meme
+import kotlin.math.sin
 
 class MemeFactory(var screenWidth: Double, var screenHeight: Double) {
     // TODO:  добавить атлас мемов
@@ -17,7 +18,6 @@ class MemeFactory(var screenWidth: Double, var screenHeight: Double) {
 
     private var textureMemeAtlas: TextureAtlas = TextureAtlas("meme_sprite.txt")
 //    private var textureAwardAtlas: TextureAtlas = TextureAtlas("award_sprite.txt")
-    //lateinit var sprite: Sprite
 
     fun getMeme() : Meme {
         val memeValue: Int = (Math.random() * memeCounter).toInt() % memeCounter + 1
