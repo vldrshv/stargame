@@ -25,7 +25,7 @@ class Award {
     }
     
     fun render(batch: Batch){
-        println("canBerendered = $canBeRendered")
+//        println("canBerendered = $canBeRendered")
         if (canBeRendered) {
             if (showingTimerCounter != 0) {
                 wasShown = false
@@ -43,12 +43,12 @@ class Award {
     
     fun resize(screenWidth: Int, screenHeight: Int){
         this.width = screenWidth / 100 * 20
-        this.height = screenHeight / 100 * 20
+        this.height = screenHeight / 100 * 30
         outfit.setSize(width.toFloat(), height.toFloat())
     }
     
     fun checkAward(withoutDamageSec: Int) : Boolean {
-        if (withoutDamageSec == 500)
+        if (withoutDamageSec == 1000)
             canBeRendered = true
         
         return canBeRendered

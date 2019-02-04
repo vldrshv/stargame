@@ -10,7 +10,7 @@ class SpaceShip(x: Double = 0.0, y: Double = 0.0) {
     var textureAtlas: TextureAtlas = TextureAtlas("meme_spaceship_sprite.txt")
     var position = Point(x, y)
     var health = 200
-    var speed: Double = 5.0
+    var speed: Double = 10.0
     var width: Int = 20
     var height: Int = 10
     var level: Int = 1
@@ -143,7 +143,7 @@ class SpaceShip(x: Double = 0.0, y: Double = 0.0) {
     fun upgrade() {
         if (level < 5) {
             level++
-            speed++
+            speed ++
             for (bullet in bulletList)
                 bullet.upgrade()
             println("bullet_Damage = ${bulletList.get(0).damage}")
@@ -153,7 +153,7 @@ class SpaceShip(x: Double = 0.0, y: Double = 0.0) {
     }
     fun downgrade() {
         level = 1
-        speed = 5.0
+        speed = 10.0
         health = 200
         BPS = 30
 

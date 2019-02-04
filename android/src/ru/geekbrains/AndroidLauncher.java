@@ -12,4 +12,10 @@ public class AndroidLauncher extends AndroidApplication {
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 		initialize(new Star2DGame(), config); // StarGame
 	}
+
+	@Override
+	public void onBackPressed(){
+//		super.onBackPressed();
+
+	}
 }

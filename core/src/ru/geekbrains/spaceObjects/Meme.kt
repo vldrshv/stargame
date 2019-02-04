@@ -15,7 +15,7 @@ class Meme(x: Double = 0.0, y: Double = 0.0, sprite: Sprite) {
     var height = 10
     var damage = 200
     var health = 20
-    var speed = 1.0
+    var speed = 3.0
 
     fun move(_point: Point) = move(_point.x, _point.y)
     private fun move(screenWidth: Double, screenHeight: Double) {
@@ -25,7 +25,7 @@ class Meme(x: Double = 0.0, y: Double = 0.0, sprite: Sprite) {
             this.resetMeme(screenWidth, screenHeight)
     }
 
-    fun isOutOfScreen(): Boolean {
+    private fun isOutOfScreen(): Boolean {
         return position.y < -height.toDouble()
     }
 
@@ -65,7 +65,7 @@ class Meme(x: Double = 0.0, y: Double = 0.0, sprite: Sprite) {
     fun getMemeStartPosition(screenWidth: Double, screenHeight: Double): Point {
         // TODO:  продумать функцию распределения
         val funcY = (Math.random() * 1000).toInt() % (screenHeight / 2).toInt()
-        val funcReturnX = ((screenWidth-20) * sin((Math.PI / screenHeight) * funcY)).toInt()
+        val funcReturnX = ((screenWidth-100) * sin((Math.PI / screenHeight) * funcY)).toInt()
 
         return Point(positionGenerator(funcY) { funcReturnX }, funcY + screenHeight.toInt())
     }

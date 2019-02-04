@@ -50,6 +50,7 @@ class GameScreen : Base2DScreen() {
         memeManager.generateMemeList()
         
         award = memeManager.memeFactory.getAward()
+        
     }
 
     override fun render(delta: Float) {
@@ -68,14 +69,17 @@ class GameScreen : Base2DScreen() {
         val updateWithoutDamageCounter = ship.checkDamage(memeManager.memeList)
         if (updateWithoutDamageCounter)
             withoutDamage++
+        else
+            withoutDamage = 0
         award.checkAward(withoutDamage)
         
         award.render(batch)
         if (award.wasShown) {
             award = memeManager.memeFactory.getAward()
+            award.resize(SCREEN_WIDTH, SCREEN_HEIGHT)
             withoutDamage = 0
         }
-        println("withoutDamage = $withoutDamage")
+//        println("withoutDamage = $withoutDamage")
 //      ========================================================================================
     }
     
@@ -93,6 +97,8 @@ class GameScreen : Base2DScreen() {
         super.resize(width, height)
         ship.resize(SCREEN_WIDTH.toDouble(), SCREEN_HEIGHT.toDouble())
         memeManager.resize(SCREEN_WIDTH.toDouble(), SCREEN_HEIGHT.toDouble())
+        award.resize(SCREEN_WIDTH, SCREEN_HEIGHT)
+        ship.bulletList.map { it -> it.resize(SCREEN_WIDTH.toDouble(), SCREEN_HEIGHT.toDouble()) }
     }
 
     override fun dispose() {

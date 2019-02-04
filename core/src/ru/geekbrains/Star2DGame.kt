@@ -43,7 +43,7 @@ class Star2DGame : Game() {
             }
             music?.play()
         }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE) || Gdx.input.isKeyJustPressed(Input.Keys.BACK)) {
             pause()
 
             // TODO Save progress before pause to local instance

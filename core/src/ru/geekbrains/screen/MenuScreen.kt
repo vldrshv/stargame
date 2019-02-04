@@ -38,14 +38,13 @@ class MenuScreen(var game: Game) : Base2DScreen() {
 
         btnExitGameAnimated = textureAtlas.createSprite("button_exitGameAnimated")
         btnExitGameAnimated.setPosition(0f, 0f)
+    
+        btnNewGame.setSize((SCREEN_WIDTH - 10).toFloat(), (SCREEN_HEIGHT / 100 * 50).toFloat())
+        btnNewGameAnimated.setSize((SCREEN_WIDTH - 10).toFloat(), (SCREEN_HEIGHT / 100 * 50).toFloat())
+        btnExitGame.setSize((SCREEN_WIDTH - 10).toFloat(), (SCREEN_HEIGHT / 100 * 50).toFloat())
+        btnExitGameAnimated.setSize((SCREEN_WIDTH - 10).toFloat(), (SCREEN_HEIGHT / 100 * 50).toFloat())
     }
-
-//    override fun show() {
-//        super.show()
-//
-//
-//    }
-
+    
     override fun dispose() {
         textureAtlas.dispose()
     }
@@ -85,5 +84,14 @@ class MenuScreen(var game: Game) : Base2DScreen() {
         position = Point(screenX, SCREEN_HEIGHT - screenY, 0)
         println(position)
         return super.touchDown(position, pointer)
+    }
+    
+    override fun resize(width: Int, height: Int) {
+        btnNewGame.setSize((width - 10).toFloat(), (height / 100 * 50).toFloat())
+        btnNewGameAnimated.setSize((width - 10).toFloat(), (height / 100 * 50).toFloat())
+        btnExitGame.setSize((width - 10).toFloat(), (height / 100 * 50).toFloat())
+        btnExitGameAnimated.setSize((width - 10).toFloat(), (height / 100 * 50).toFloat())
+        
+        super.resize(width, height)
     }
 }

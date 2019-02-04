@@ -8,9 +8,9 @@ class Bullet(obj: SpaceShip) { //SpaceObject() {
 
     var canBeShooted: Boolean = false
 
-    var position: Point = Point(400, 0)//obj.position.x, obj.position.y)
+    var position: Point = Point(400, 0)
     var damage: Int = 10
-    var speed: Double = 3.0//obj.speed
+    var speed: Double = 5.0//obj.speed
     var height: Int = 3//obj.height
     var width: Int = 3//obj.width
     var level: Int = 1
@@ -44,7 +44,7 @@ class Bullet(obj: SpaceShip) { //SpaceObject() {
     }
 
     fun resize(screenWidth: Double, screenHeight: Double)
-            = resize(screenWidth, screenHeight, 5, 15)
+            = resize(screenWidth, screenHeight, 3, 9)
 
     private fun resize(screenWidth: Double, screenHeight: Double, coefWidth: Int, coefHeight: Int){
         this.width = (screenWidth / 100 * coefWidth).toInt()
