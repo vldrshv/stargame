@@ -17,6 +17,8 @@ class MenuScreen(var game: Game) : Base2DScreen() {
     var btnExitGame: Sprite
     var btnNewGameAnimated: Sprite
     var btnExitGameAnimated: Sprite
+    var btnLoadGame: Sprite
+    var btnLoadGameAnimated: Sprite
 
     var position: Point
 
@@ -27,22 +29,26 @@ class MenuScreen(var game: Game) : Base2DScreen() {
         textureAtlas = TextureAtlas("buttons_sprites.txt")
 
         position = Point()
+        
         btnNewGame = textureAtlas.createSprite("button_newGame")
-        btnNewGame.setPosition(0f, (SCREEN_HEIGHT / 2).toFloat())
+        btnNewGame.setPosition(0f, (2 * SCREEN_HEIGHT / 3).toFloat())
 
         btnNewGameAnimated = textureAtlas.createSprite("button_newGameAnimated")
-        btnNewGameAnimated.setPosition(0f, (SCREEN_HEIGHT / 2).toFloat())
+        btnNewGameAnimated.setPosition(0f, (2 * SCREEN_HEIGHT / 3).toFloat())
 
         btnExitGame = textureAtlas.createSprite("button_exitGame")
         btnExitGame.setPosition(0f, 0f)
 
         btnExitGameAnimated = textureAtlas.createSprite("button_exitGameAnimated")
         btnExitGameAnimated.setPosition(0f, 0f)
+        
+        btnLoadGame = textureAtlas.createSprite("button_loadGame")
+        btnLoadGame.setPosition(0f, (SCREEN_HEIGHT / 3).toFloat())
     
-        btnNewGame.setSize((SCREEN_WIDTH - 10).toFloat(), (SCREEN_HEIGHT / 100 * 50).toFloat())
-        btnNewGameAnimated.setSize((SCREEN_WIDTH - 10).toFloat(), (SCREEN_HEIGHT / 100 * 50).toFloat())
-        btnExitGame.setSize((SCREEN_WIDTH - 10).toFloat(), (SCREEN_HEIGHT / 100 * 50).toFloat())
-        btnExitGameAnimated.setSize((SCREEN_WIDTH - 10).toFloat(), (SCREEN_HEIGHT / 100 * 50).toFloat())
+        btnLoadGameAnimated = textureAtlas.createSprite("button_loadGameAnimated")
+        btnLoadGameAnimated.setPosition(0f, (SCREEN_HEIGHT / 3).toFloat())
+        
+        resize(SCREEN_WIDTH, SCREEN_HEIGHT)
     }
     
     override fun dispose() {
@@ -52,23 +58,47 @@ class MenuScreen(var game: Game) : Base2DScreen() {
     override fun render(delta: Float) {
         Gdx.gl.glClearColor(0f, 0f, 0f, 0f)
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
+        
         batch.begin()
-
-        if (position.y > 0 && position.y < SCREEN_HEIGHT / 2) {
+    
+        renderNewGame()
+        renderLoadGame()
+        renderExitGame()
+        
+        batch.end()
+    }
+    
+    private fun renderNewGame(){
+        if (position.y > 2 * SCREEN_HEIGHT / 3 && position.y < SCREEN_HEIGHT) {
+            btnNewGameAnimated.draw(batch)
+            if (_wait()) {
+                val instanceFile = Gdx.files.local("\\gameInstance.ser")
+                if(instanceFile.exists()) {
+                    println("INSTANCE DELETED")
+                    instanceFile.delete()
+                }
+                game.screen = GameScreen()
+            }
+        } else
+            btnNewGame.draw(batch)
+    }
+    private fun renderLoadGame() {
+        if (position.y > SCREEN_HEIGHT / 3 && position.y < 2 * SCREEN_HEIGHT / 3) {
+            btnLoadGameAnimated.draw(batch)
+            // TODO:  check saved GameInstance
+            if (_wait())
+                game.screen = GameScreen()
+        } else
+            btnLoadGame.draw(batch)
+    }
+    private fun renderExitGame() {
+        if (position.y > 0 && position.y < SCREEN_HEIGHT / 3) {
             btnExitGameAnimated.draw(batch)
             if (_wait())
                 Gdx.app.exit()
         } else
             btnExitGame.draw(batch)
-        if (position.y > SCREEN_HEIGHT / 2 && position.y < SCREEN_HEIGHT) {
-            btnNewGameAnimated.draw(batch)
-            if (_wait())
-                game.screen = GameScreen()
-        } else
-            btnNewGame.draw(batch)
-        batch.end()
     }
-
     private fun _wait(): Boolean {
         if (WAIT != 20)
             WAIT++
@@ -87,10 +117,12 @@ class MenuScreen(var game: Game) : Base2DScreen() {
     }
     
     override fun resize(width: Int, height: Int) {
-        btnNewGame.setSize((width - 10).toFloat(), (height / 100 * 50).toFloat())
-        btnNewGameAnimated.setSize((width - 10).toFloat(), (height / 100 * 50).toFloat())
-        btnExitGame.setSize((width - 10).toFloat(), (height / 100 * 50).toFloat())
-        btnExitGameAnimated.setSize((width - 10).toFloat(), (height / 100 * 50).toFloat())
+        btnNewGame.setSize((SCREEN_WIDTH - 10).toFloat(), (SCREEN_HEIGHT / 100 * 30).toFloat())
+        btnNewGameAnimated.setSize((SCREEN_WIDTH - 10).toFloat(), (SCREEN_HEIGHT / 100 * 30).toFloat())
+        btnExitGame.setSize((SCREEN_WIDTH - 10).toFloat(), (SCREEN_HEIGHT / 100 * 30).toFloat())
+        btnExitGameAnimated.setSize((SCREEN_WIDTH - 10).toFloat(), (SCREEN_HEIGHT / 100 * 30).toFloat())
+        btnLoadGame.setSize((SCREEN_WIDTH - 10).toFloat(), (SCREEN_HEIGHT / 100 * 30).toFloat())
+        btnLoadGameAnimated.setSize((SCREEN_WIDTH - 10).toFloat(), (SCREEN_HEIGHT / 100 * 30).toFloat())
         
         super.resize(width, height)
     }

@@ -3,21 +3,25 @@ package ru.geekbrains.spaceObjects
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.Sprite
 import com.badlogic.gdx.graphics.g2d.TextureAtlas
+import ru.geekbrains.base.GameInstance
 import ru.geekbrains.base.Point
 import java.io.Serializable
 
 class SpaceShip(x: Double = 0.0, y: Double = 0.0) : Serializable{
     var bulletList: ArrayList<Bullet>
-    var textureAtlas: TextureAtlas = TextureAtlas("meme_spaceship_sprite.txt")
     var position = Point(x, y)
     var health = 200
     var speed: Double = 10.0
     var width: Int = 20
     var height: Int = 10
     var level: Int = 1
-    var outfit: Sprite = textureAtlas.createSprite("nyan_cat")
     var screenWidth: Double = 800.0
     var screenHeight: Double = 400.0
+    
+    @Transient
+    var textureAtlas: TextureAtlas = TextureAtlas("meme_spaceship_sprite.txt")
+    @Transient
+    var outfit: Sprite = textureAtlas.createSprite("nyan_cat")
 
     private var experience: Int = 0
     private var EP: Int = 10
@@ -171,8 +175,14 @@ class SpaceShip(x: Double = 0.0, y: Double = 0.0) : Serializable{
     }
     
     override fun toString(): String {
-        return "SpaceShip(speed=$speed)"
+        return "SpaceShip(bulletList=$bulletList, position=$position, health=$health, speed=$speed, width=$width, height=$height, level=$level, screenWidth=$screenWidth, screenHeight=$screenHeight, textureAtlas=$textureAtlas, outfit=$outfit, experience=$experience, EP=$EP, UPD_POINTS=$UPD_POINTS, BPS=$BPS, TIME_COUNTER=$TIME_COUNTER, bulletNum=$bulletNum, direction=$direction)"
     }
     
-    
+    fun restore(){
+        textureAtlas = TextureAtlas("meme_spaceship_sprite.txt")
+        outfit = textureAtlas.createSprite("nyan_cat")
+        bulletList.map { it -> it.restore(this) }
+        //bulletList = ArrayList()
+        //addBullets()
+    }
 }

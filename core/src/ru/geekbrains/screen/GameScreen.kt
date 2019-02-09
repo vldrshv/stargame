@@ -1,19 +1,14 @@
 package ru.geekbrains.screen
 
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.Input
 import com.badlogic.gdx.audio.Music
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.TextureAtlas
-
-import java.util.ArrayList
-
-import ru.geekbrains.spaceObjects.Meme
-import ru.geekbrains.base.Point
+import ru.geekbrains.base.*
 import ru.geekbrains.spaceObjects.SpaceShip
-import ru.geekbrains.base.Base2DScreen
-import ru.geekbrains.base.MemeFactory
-import ru.geekbrains.base.MemeManager
+import java.io.*
 
 class GameScreen : Base2DScreen() {
 
@@ -26,19 +21,21 @@ class GameScreen : Base2DScreen() {
     
     private var memeManager: MemeManager
     
-
-
     var textureAtlas: TextureAtlas = TextureAtlas("meme_spaceship_sprite.txt")
 
     init {
         super.show()
         wallpaperImg = Texture("space.jpg")
-        ship = SpaceShip((SCREEN_WIDTH / 2).toDouble(), 0.0)
-
+        ship = SpaceShip()
+        if (Gdx.files.local(".\\gameInstance.ser").exists()){
+            restoreInstance()
+            println("INSTANCE RESTORED")
+        } else {
+            ship = SpaceShip((SCREEN_WIDTH / 2).toDouble(), 0.0)
+            ship.width = SCREEN_WIDTH / 100 * 10
+            ship.height = SCREEN_HEIGHT / 100 * 15
+        }
         dest = Point(ship.position)
-        ship.width = SCREEN_WIDTH / 100 * 10
-        ship.height = SCREEN_HEIGHT / 100 * 15
-
         music = Gdx.audio.newMusic(Gdx.files.internal("shooting_stars.mp3"))
         music!!.isLooping = true
         music!!.play()
@@ -64,6 +61,9 @@ class GameScreen : Base2DScreen() {
 
         val updateWithoutDamageCounter = ship.checkDamage(memeManager.memeList)
         memeManager.checkAward(updateWithoutDamageCounter, batch)
+    
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE) || Gdx.input.isKeyJustPressed(Input.Keys.BACK))
+            saveInstance()
     }
     
     private fun drawGameObjects() {
@@ -76,6 +76,46 @@ class GameScreen : Base2DScreen() {
         ship.fire()
     }
 
+    private fun saveInstance(){
+        var instance = GameInstance()
+        instance.ship = this.ship
+        instance.musicBeginningTimeSec = this.music!!.position.toDouble()
+    
+        try {
+            var fileOut = FileOutputStream(".\\gameInstance.ser")
+            var outStream = ObjectOutputStream(fileOut)
+            outStream.writeObject(instance)
+            outStream.close()
+            fileOut.close()
+            println("Serialized data is saved in \\gameInstance.ser")
+        } catch (i: IOException) {
+            i.printStackTrace()
+        }
+    }
+    
+    private fun restoreInstance() {
+        var instance: GameInstance
+        try {
+            var fileIn = FileInputStream(".\\gameInstance.ser")
+            var inStream = ObjectInputStream(fileIn)
+            instance = inStream.readObject() as GameInstance
+            inStream.close()
+            fileIn.close()
+        } catch (i: IOException) {
+            i.printStackTrace()
+            return
+        } catch (c: ClassNotFoundException) {
+            System.out.println("GameInstance class not found")
+            c.printStackTrace()
+            return
+        }
+    
+        println(instance)
+        ship = instance.ship
+        ship.restore()
+        println(ship)
+    }
+ 
     override fun resize(width: Int, height: Int) {
         super.resize(width, height)
         ship.resize(SCREEN_WIDTH.toDouble(), SCREEN_HEIGHT.toDouble())

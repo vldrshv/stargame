@@ -9,4 +9,13 @@ class GameInstance : Serializable {
     var ship: SpaceShip = SpaceShip()
     var musicTrack: String = ""
     var musicBeginningTimeSec: Double = 0.0
+    override fun toString(): String {
+        return "GameInstance(\n" +
+                "--> ship=$ship\n, " +
+                "--> musicTrack='$musicTrack'\n, " +
+                "--> musicBeginningTimeSec=$musicBeginningTimeSec\n" +
+                ")"
+    }
+    
+    
 }

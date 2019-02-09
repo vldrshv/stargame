@@ -15,6 +15,7 @@ class Bullet(obj: SpaceShip) : Serializable { //SpaceObject() {
     var height: Int = 3//obj.height
     var width: Int = 3//obj.width
     var level: Int = 1
+    @Transient
     var outfit: Sprite = obj.textureAtlas.createSprite("rainbow")
 
     fun move(screenHeight: Double)  {
@@ -55,5 +56,16 @@ class Bullet(obj: SpaceShip) : Serializable { //SpaceObject() {
     private fun isOutOfScreen(screenHeight: Double): Boolean {
         return position.y - height > screenHeight
     }
+    
+    fun restore(spaceShip: SpaceShip){
+        outfit = spaceShip.textureAtlas.createSprite("rainbow")
+        //bulletList = ArrayList()
+        //addBullets()
+    }
+    
+    override fun toString(): String {
+        return "Bullet(damage=$damage)"
+    }
+    
     
 }

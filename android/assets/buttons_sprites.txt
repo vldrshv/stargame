@@ -1,33 +1,47 @@
 buttons_sprites.png
-size: 1580, 352
+size: 1800, 660
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 button_exitGame
   rotate: false
   xy: 0, 0
-  size: 790, 172
-  orig: 790, 172
+  size: 900, 220
+  orig: 900, 220
   offset: 0, 0
   index: -1
 button_exitGameAnimated
   rotate: false
-  xy: 790, 0
-  size: 790, 172
-  orig: 790, 172
+  xy: 900, 0
+  size: 900, 220
+  orig: 900, 220
+  offset: 0, 0
+  index: -1
+button_loadGame
+  rotate: false
+  xy: 0, 220
+  size: 900, 220
+  orig: 900, 220
+  offset: 0, 0
+  index: -1
+button_loadGameAnimated
+  rotate: false
+  xy: 900, 220
+  size: 900, 220
+  orig: 900, 220
   offset: 0, 0
   index: -1
 button_newGame
   rotate: false
-  xy: 0, 172
-  size: 790, 180
-  orig: 790, 180
+  xy: 0, 440
+  size: 900, 220
+  orig: 900, 220
   offset: 0, 0
   index: -1
 button_newGameAnimated
   rotate: false
-  xy: 790, 172
-  size: 790, 180
-  orig: 790, 180
+  xy: 900, 440
+  size: 900, 220
+  orig: 900, 220
   offset: 0, 0
   index: -1

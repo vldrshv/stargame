@@ -6,9 +6,13 @@ import com.badlogic.gdx.Input
 import com.badlogic.gdx.Screen
 import com.badlogic.gdx.audio.Music
 import ru.geekbrains.base.Base2DScreen
+import ru.geekbrains.base.GameInstance
 import ru.geekbrains.screen.GameScreen
 
 import ru.geekbrains.screen.MenuScreen
+import java.io.FileOutputStream
+import java.io.ObjectOutputStream
+import java.lang.System.out
 
 class Star2DGame : Game() {
 
@@ -45,7 +49,6 @@ class Star2DGame : Game() {
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE) || Gdx.input.isKeyJustPressed(Input.Keys.BACK)) {
             pause()
-
             // TODO Save progress before pause to local instance
             setScreen(MenuScreen(this))
             return
