@@ -3,8 +3,9 @@ package ru.geekbrains.spaceObjects
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.Sprite
 import ru.geekbrains.base.Point
+import java.io.Serializable
 
-class Bullet(obj: SpaceShip) { //SpaceObject() {
+class Bullet(obj: SpaceShip) : Serializable { //SpaceObject() {
 
     var canBeShooted: Boolean = false
 
@@ -14,7 +15,7 @@ class Bullet(obj: SpaceShip) { //SpaceObject() {
     var height: Int = 3//obj.height
     var width: Int = 3//obj.width
     var level: Int = 1
-    var outfit: Sprite = obj.textureAtlas.createSprite("rainbow")
+    //var outfit: Sprite = obj.textureAtlas.createSprite("rainbow")
 
     fun move(screenHeight: Double)  {
         if (this.isOutOfScreen(screenHeight)){
@@ -36,9 +37,9 @@ class Bullet(obj: SpaceShip) { //SpaceObject() {
     fun render(batch: Batch) {
         if (this.canBeShooted) {
             batch.begin()
-            outfit.setSize(this.width.toFloat(), this.height.toFloat())
-            outfit.setPosition(this.position.x.toFloat(), this.position.y.toFloat())
-            outfit.draw(batch)
+            //outfit.setSize(this.width.toFloat(), this.height.toFloat())
+            //outfit.setPosition(this.position.x.toFloat(), this.position.y.toFloat())
+            //outfit.draw(batch)
             batch.end()
         }
     }

@@ -4,17 +4,18 @@ import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.Sprite
 import com.badlogic.gdx.graphics.g2d.TextureAtlas
 import ru.geekbrains.base.Point
+import java.io.Serializable
 
-class SpaceShip(x: Double = 0.0, y: Double = 0.0) {
+class SpaceShip(x: Double = 0.0, y: Double = 0.0) : Serializable{
     var bulletList: ArrayList<Bullet>
-    var textureAtlas: TextureAtlas = TextureAtlas("meme_spaceship_sprite.txt")
+    //var textureAtlas: TextureAtlas = TextureAtlas("meme_spaceship_sprite.txt")
     var position = Point(x, y)
     var health = 200
     var speed: Double = 10.0
     var width: Int = 20
     var height: Int = 10
     var level: Int = 1
-    var outfit: Sprite = textureAtlas.createSprite("nyan_cat")
+    //var outfit: Sprite = textureAtlas.createSprite("nyan_cat")
     var screenWidth: Double = 800.0
     var screenHeight: Double = 400.0
 
@@ -67,10 +68,10 @@ class SpaceShip(x: Double = 0.0, y: Double = 0.0) {
     }
     
     fun render(batch: Batch) {
-        outfit.setPosition(this.position.x.toFloat(), this.position.y.toFloat())
-        outfit.setSize(this.width.toFloat(), this.height.toFloat())
+        //outfit.setPosition(this.position.x.toFloat(), this.position.y.toFloat())
+        //outfit.setSize(this.width.toFloat(), this.height.toFloat())
         batch.begin()
-        outfit.draw(batch)
+        //outfit.draw(batch)
         batch.end()
         for (b: Bullet in bulletList)
             b.render(batch)
@@ -107,30 +108,7 @@ class SpaceShip(x: Double = 0.0, y: Double = 0.0) {
             bulletList.add(Bullet(this))
         }
     }
-
-//    @Deprecated(message = "Deprecated for mobile phone")
-//    fun move(_point: Point, screenWidth: Double, screenHeight: Double) {
-//        if (!isOutOfScreen(screenWidth, screenHeight))
-//            move(_point)
-//        else{
-//            if (position.x + width > screenWidth)
-//                position.x = 0.0//screenWidth - width
-//            if (position.x < 0.0)
-//                position.x = screenWidth - width
-//        }
-//    }
-//
-//    @Deprecated(message = "Deprecated for mobile phone")
-//    override fun move(x: Double, y: Double) {
-//        val destVector: Vector = Vector(x - position.x, y - position.y, 0.0)
-//        movingVector = destVector.normalize().growVector(speed)
-//
-//        val deltaX: Double = Vector(x - position.x, 0.0).length()
-//        position.x += if (deltaX < movingVector.x) deltaX else movingVector.x
-//
-//        val deltaY: Double = Vector(0.0, y - position.y, 0.0).length()
-//        position.y += if (deltaY < movingVector.y) deltaY else movingVector.y
-//    }
+    
     fun resize(screenWidth: Double, screenHeight: Double) {
         this.screenWidth = screenWidth
         this.screenHeight = screenHeight
@@ -191,4 +169,6 @@ class SpaceShip(x: Double = 0.0, y: Double = 0.0) {
         }
         return false
     }
+    
+    
 }

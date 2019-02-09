@@ -1,6 +1,8 @@
 package ru.geekbrains.base
 
-open class Point(var x: Double = 0.0, var y: Double = 0.0, var z: Double = 0.0){
+import java.io.Serializable
+
+open class Point(var x: Double = 0.0, var y: Double = 0.0, var z: Double = 0.0) : Serializable{
 
     constructor() : this(0.0, 0.0, 0.0)
     constructor(x: Int = 0, y: Int = 0, z: Int = 0) : this(x.toDouble(), y.toDouble(), z.toDouble())
