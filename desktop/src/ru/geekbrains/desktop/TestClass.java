@@ -28,51 +28,51 @@ public class TestClass {
 //            System.out.println();
 //        }
 
-        SpaceShip ship = new SpaceShip();
-        ship.setHealth(1000);
-        ship.setHeight(50);
-        ship.setWidth(100);
-        ship.setLevel(2);
-        ship.setScreenHeight(1024);
-        ship.setScreenWidth(800);
-        //ship.setOutfit(null);
-        ship.setSpeed(100);
-
-
-            //File f = new File("azaza.txt");
-        GameInstance gi = new GameInstance() ;
-        gi.setShip(ship);
-        gi.setMusicTrack("azaza.mp3");
-        gi.setMusicBeginningTimeSec(33.0);
-
-        try {
-            FileOutputStream fileOut =
-                    new FileOutputStream(".\\gameInstance.ser");
-            ObjectOutputStream out = new ObjectOutputStream(fileOut);
-            out.writeObject(gi);
-            out.close();
-            fileOut.close();
-            System.out.printf("Serialized data is saved in /ship.txt");
-        } catch (IOException i) {
-            i.printStackTrace();
-        }
-
-        gi = new GameInstance();
-        try {
-            FileInputStream fileIn = new FileInputStream(".\\gameInstance.ser");
-            ObjectInputStream in = new ObjectInputStream(fileIn);
-            gi = (GameInstance) in.readObject();
-            in.close();
-            fileIn.close();
-        } catch (IOException i) {
-            i.printStackTrace();
-            return;
-        } catch (ClassNotFoundException c) {
-            System.out.println("Employee class not found");
-            c.printStackTrace();
-            return;
-        }
-
-        System.out.println(gi);
+//        SpaceShip ship = new SpaceShip();
+//        ship.setHealth(1000);
+//        ship.setHeight(50);
+//        ship.setWidth(100);
+//        ship.setLevel(2);
+//        ship.setScreenHeight(1024);
+//        ship.setScreenWidth(800);
+//        ship.setOutfit(null);
+//        ship.setSpeed(100);
+//
+//
+            File f = new File("azaza.txt");
+//        GameInstance gi = new GameInstance() ;
+//        gi.setShip(ship);
+//        gi.setMusicTrack("azaza.mp3");
+//        gi.setMusicBeginningTimeSec(33.0);
+//
+//        try {
+//            FileOutputStream fileOut =
+//                    new FileOutputStream(".\\gameInstance.ser");
+//            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+//            out.writeObject(gi);
+//            out.close();
+//            fileOut.close();
+//            System.out.printf("Serialized data is saved in /ship.txt");
+//        } catch (IOException i) {
+//            i.printStackTrace();
+//        }
+//
+//        gi = new GameInstance();
+//        try {
+//            FileInputStream fileIn = new FileInputStream(".\\gameInstance.ser");
+//            ObjectInputStream in = new ObjectInputStream(fileIn);
+//            gi = (GameInstance) in.readObject();
+//            in.close();
+//            fileIn.close();
+//        } catch (IOException i) {
+//            i.printStackTrace();
+//            return;
+//        } catch (ClassNotFoundException c) {
+//            System.out.println("Employee class not found");
+//            c.printStackTrace();
+//            return;
+//        }
+//
+//        System.out.println(gi);
     }
 }

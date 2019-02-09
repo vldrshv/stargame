@@ -8,14 +8,14 @@ import java.io.Serializable
 
 class SpaceShip(x: Double = 0.0, y: Double = 0.0) : Serializable{
     var bulletList: ArrayList<Bullet>
-    //var textureAtlas: TextureAtlas = TextureAtlas("meme_spaceship_sprite.txt")
+    var textureAtlas: TextureAtlas = TextureAtlas("meme_spaceship_sprite.txt")
     var position = Point(x, y)
     var health = 200
     var speed: Double = 10.0
     var width: Int = 20
     var height: Int = 10
     var level: Int = 1
-    //var outfit: Sprite = textureAtlas.createSprite("nyan_cat")
+    var outfit: Sprite = textureAtlas.createSprite("nyan_cat")
     var screenWidth: Double = 800.0
     var screenHeight: Double = 400.0
 
@@ -68,10 +68,10 @@ class SpaceShip(x: Double = 0.0, y: Double = 0.0) : Serializable{
     }
     
     fun render(batch: Batch) {
-        //outfit.setPosition(this.position.x.toFloat(), this.position.y.toFloat())
-        //outfit.setSize(this.width.toFloat(), this.height.toFloat())
+        outfit.setPosition(this.position.x.toFloat(), this.position.y.toFloat())
+        outfit.setSize(this.width.toFloat(), this.height.toFloat())
         batch.begin()
-        //outfit.draw(batch)
+        outfit.draw(batch)
         batch.end()
         for (b: Bullet in bulletList)
             b.render(batch)
@@ -168,6 +168,10 @@ class SpaceShip(x: Double = 0.0, y: Double = 0.0) : Serializable{
             return true
         }
         return false
+    }
+    
+    override fun toString(): String {
+        return "SpaceShip(speed=$speed)"
     }
     
     

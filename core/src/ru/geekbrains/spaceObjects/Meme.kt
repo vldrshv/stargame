@@ -3,6 +3,7 @@ package ru.geekbrains.spaceObjects
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.Sprite
 import ru.geekbrains.base.Point
+import kotlin.math.cos
 import kotlin.math.sin
 
 class Meme(x: Double = 0.0, y: Double = 0.0, sprite: Sprite) {
@@ -15,7 +16,7 @@ class Meme(x: Double = 0.0, y: Double = 0.0, sprite: Sprite) {
     var height = 10
     var damage = 200
     var health = 20
-    var speed = 3.0
+    var speed = Math.random() * 10 % 2
 
     fun move(_point: Point) = move(_point.x, _point.y)
     private fun move(screenWidth: Double, screenHeight: Double) {
@@ -64,18 +65,21 @@ class Meme(x: Double = 0.0, y: Double = 0.0, sprite: Sprite) {
 
     fun getMemeStartPosition(screenWidth: Double, screenHeight: Double): Point {
         // TODO:  продумать функцию распределения
-        val funcY = (Math.random() * 1000).toInt() % (screenHeight / 2).toInt()
-        val funcReturnX = ((screenWidth-100) * sin((Math.PI / screenHeight) * funcY)).toInt()
+        val y = (Math.random() * 1000).toInt() % (screenHeight / 2)
+        //val funcReturnX = ((screenWidth-100) * sin((Math.PI / screenHeight) * funcY))
 
-        return Point(positionGenerator(funcY) { funcReturnX }, funcY + screenHeight.toInt())
+//        val funcY = (Math.random() * 1000 / screenWidth)
+        val funcReturnX = (sin(y/80) * sin(y/80) + cos(y/10) * cos(y/10)) * (screenHeight - 20)
+        return Point(positionGenerator(y) { funcReturnX }, y + screenHeight.toInt())
     }
 
-    private fun positionGenerator(value: Int, generate: (Int) -> Int): Int {
+    private fun positionGenerator(value: Double, generate: (Double) -> Double): Double {
         return generate(value)
     }
-
+    
     override fun toString(): String {
-        return "Meme(position=$position)"
+        return "Meme(speed=$speed)"
     }
-
+    
+    
 }

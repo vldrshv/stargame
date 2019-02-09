@@ -14,7 +14,6 @@ import ru.geekbrains.spaceObjects.SpaceShip
 import ru.geekbrains.base.Base2DScreen
 import ru.geekbrains.base.MemeFactory
 import ru.geekbrains.base.MemeManager
-import ru.geekbrains.spaceObjects.Award
 
 class GameScreen : Base2DScreen() {
 
@@ -22,13 +21,12 @@ class GameScreen : Base2DScreen() {
 
     private var dest: Point
     private var ship: SpaceShip
-    private var award: Award
 
     private var music: Music? = null
     
     private var memeManager: MemeManager
     
-    private var withoutDamage: Int = 0
+
 
     var textureAtlas: TextureAtlas = TextureAtlas("meme_spaceship_sprite.txt")
 
@@ -45,11 +43,11 @@ class GameScreen : Base2DScreen() {
         music!!.isLooping = true
         music!!.play()
 
-        memeManager = MemeManager()//SCREEN_WIDTH.toDouble(), SCREEN_WIDTH.toDouble())
+        memeManager = MemeManager()
         memeManager.memeFactory = MemeFactory(SCREEN_WIDTH.toDouble(), SCREEN_WIDTH.toDouble())
         memeManager.generateMemeList()
         
-        award = memeManager.memeFactory.getAward()
+        memeManager.award = memeManager.memeFactory.getAward()
         
     }
 
@@ -64,23 +62,8 @@ class GameScreen : Base2DScreen() {
         
         memeManager.checkDamage(ship)
 
-//      ========================================================================================
-//      TODO: Убрать в memeManager
         val updateWithoutDamageCounter = ship.checkDamage(memeManager.memeList)
-        if (updateWithoutDamageCounter)
-            withoutDamage++
-        else
-            withoutDamage = 0
-        award.checkAward(withoutDamage)
-        
-        award.render(batch)
-        if (award.wasShown) {
-            award = memeManager.memeFactory.getAward()
-            award.resize(SCREEN_WIDTH, SCREEN_HEIGHT)
-            withoutDamage = 0
-        }
-//        println("withoutDamage = $withoutDamage")
-//      ========================================================================================
+        memeManager.checkAward(updateWithoutDamageCounter, batch)
     }
     
     private fun drawGameObjects() {
@@ -97,7 +80,7 @@ class GameScreen : Base2DScreen() {
         super.resize(width, height)
         ship.resize(SCREEN_WIDTH.toDouble(), SCREEN_HEIGHT.toDouble())
         memeManager.resize(SCREEN_WIDTH.toDouble(), SCREEN_HEIGHT.toDouble())
-        award.resize(SCREEN_WIDTH, SCREEN_HEIGHT)
+        memeManager.award.resize(SCREEN_WIDTH, SCREEN_HEIGHT)
         ship.bulletList.map { it -> it.resize(SCREEN_WIDTH.toDouble(), SCREEN_HEIGHT.toDouble()) }
     }
 
